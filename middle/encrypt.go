@@ -3,8 +3,8 @@ package middle
 import (
 	"fmt"
 
-	"hreq/library"
-	"hreq/response"
+	"go-hreq/library"
+	"go-hreq/response"
 
 	"github.com/labstack/echo"
 )

@@ -1,7 +1,7 @@
 package handel
 
 import (
-	"hreq/middle"
+	"go-hreq/middle"
 
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
