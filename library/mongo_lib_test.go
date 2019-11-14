@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"testing"
 
-	"hreq/config"
+	"go-hreq/config"
 
 	"github.com/satori/go.uuid"
 	"go.mongodb.org/mongo-driver/bson"
@@ -28,7 +28,7 @@ func TestMongoLib_MongoClient(t *testing.T) {
 	u2 := uuid.NewV4().String()
 	fmt.Println(u2)
 
-	ash := bson.M{"id": u2, "url":"xin.com", "methon":"post", "num":2, "paramsdata": "a=1&b=2"}
+	ash := bson.M{"id": u2, "url":"xin.com", "methon":"post", "num":2, "req_num":0, "paramsdata": "a=1&b=2"}
 	addErr := connect.Add(ash)
 	if addErr != nil {
 		t.Fatal("insert mongo was wrong")

@@ -1,7 +1,51 @@
 package service
 
-import "fmt"
+import (
+	"fmt"
+	"sync"
 
+	"go-hreq/library"
+	"go-hreq/config"
+
+	"go.mongodb.org/mongo-driver/bson"
+)
+
+// 重试数据库中访问没有超过次数的请求,超过次数则删除
 func Repre(){
-	fmt.Print("aaaaaa")
+	// 获取数据
+	connect := new(library.MongoLib)
+	conErr := connect.MongoClient()
+	if conErr != nil {
+		fmt.Println(conErr)
+	}
+
+	dbErr := connect.SetDB(config.MongoConfig["databases"])
+	if dbErr != true {
+		panic("Mongo DB Set DB was wrong")
+	}
+
+	connect.SetTable(config.MongoConfig["tb"])
+
+	// 检查新增
+	fd := bson.M{"req_num": bson.M{"$lt": 3}}
+	fdVal, fdErr := connect.Find(fd)
+	if fdErr != nil {
+		panic("Mongo DB Find Was Wrong !!!")
+	}
+
+	// 操作数据发送请求 todo
+	wg := sync.WaitGroup{}
+	for _, v := range fdVal {
+		go func(b bson.M) {
+			wg.Add(1)
+			do(b)
+			wg.Done()
+		}(v)
+	}
+	wg.Wait()
+}
+
+// 发送请求，更新或者删除数据 todo
+func do(b bson.M) {
+	fmt.Println(b["id"])
 }
