@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"hreq/handel"
+	"go-hreq/handel"
 )
 
 func main() {

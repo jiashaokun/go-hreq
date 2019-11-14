@@ -1,11 +1,11 @@
 package library
 
 import (
+	"crypto/md5"
 	"fmt"
 	"net/url"
-	"crypto/md5"
 
-	"hreq/config"
+	"go-hreq/config"
 
 	"github.com/labstack/echo"
 )

@@ -5,12 +5,12 @@ import (
 	"net/http"
 	"strconv"
 
-	"hreq/config"
-	"hreq/library"
+	"go-hreq/config"
+	"go-hreq/library"
 
-	"go.mongodb.org/mongo-driver/bson"
 	"github.com/labstack/echo"
 	uuid "github.com/satori/go.uuid"
+	"go.mongodb.org/mongo-driver/bson"
 )
 
 func addReq(c echo.Context) error {
