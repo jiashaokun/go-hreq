@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"hreq/service"
+	"go-hreq/service"
 
 	"github.com/robfig/cron"
 	"github.com/labstack/echo"
