@@ -1,4 +1,4 @@
-module hreq
+module go-hreq
 
 go 1.12
 
