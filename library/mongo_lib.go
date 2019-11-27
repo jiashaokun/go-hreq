@@ -86,10 +86,10 @@ func (m *MongoLib) Find(c bson.M) ([]bson.M,error) {
 	return result, nil
 }
 
-func (m *MongoLib) UpdateNumById(id string, num int) error {
+func (m *MongoLib) UpdateNumById(id string, num int32) error {
 	ctx, _ := context.WithTimeout(context.Background(), 10 * time.Second)
 	w := bson.M{"id": id}
-	u := bson.M{"$set": bson.M{"num":num}}
+	u := bson.M{"$set": bson.M{"req_num":num}}
 	_, err := m.TB.UpdateOne(ctx, w, u)
 	if err != nil {
 		return err

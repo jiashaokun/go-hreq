@@ -27,7 +27,7 @@ func addReq(c echo.Context) error {
 
 	// 写入mongo
 	id := uuid.NewV4().String()
-	res := bson.M{"id": id, "url": url, "methon":method, "num": rn, "req_num":0, "info": info, "resp": ckRes}
+	res := bson.M{"id": id, "url": url, "method":method, "num": rn, "req_num":0, "info": info, "resp": ckRes}
 
 	con := library.MongoLib{}
 	conErr := con.MongoClient()

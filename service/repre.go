@@ -1,11 +1,11 @@
 package service
 
 import (
-	"fmt"
 	"sync"
 
-	"go-hreq/library"
+	"go-hreq/pkg"
 	"go-hreq/config"
+	"go-hreq/library"
 
 	"go.mongodb.org/mongo-driver/bson"
 )
@@ -16,7 +16,7 @@ func Repre(){
 	connect := new(library.MongoLib)
 	conErr := connect.MongoClient()
 	if conErr != nil {
-		fmt.Println(conErr)
+		panic(conErr)
 	}
 
 	dbErr := connect.SetDB(config.MongoConfig["databases"])
@@ -29,6 +29,7 @@ func Repre(){
 	// 检查新增
 	fd := bson.M{"req_num": bson.M{"$lt": 3}}
 	fdVal, fdErr := connect.Find(fd)
+
 	if fdErr != nil {
 		panic("Mongo DB Find Was Wrong !!!")
 	}
@@ -36,16 +37,11 @@ func Repre(){
 	// 操作数据发送请求 todo
 	wg := sync.WaitGroup{}
 	for _, v := range fdVal {
-		go func(b bson.M) {
-			wg.Add(1)
-			do(b)
-			wg.Done()
-		}(v)
+		wg.Add(1)
+		go func(cn *library.MongoLib, wg *sync.WaitGroup, v bson.M) {
+			defer wg.Done()
+			pkg.Hreq(cn, wg, v)
+		}(connect, &wg, v)
 	}
 	wg.Wait()
-}
-
-// 发送请求，更新或者删除数据 todo
-func do(b bson.M) {
-	fmt.Println(b["id"])
 }
