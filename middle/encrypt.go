@@ -20,7 +20,7 @@ func Encrypt(next echo.HandlerFunc) echo.HandlerFunc {
 
 		sign, err := library.Encrypt(c)
 		if err == false {
-			response.Response(c, 500, "", fmt.Sprintln("Sign was Wrong sn was %s", sign))
+			response.Response(c, 500, "", fmt.Sprintf("Sign was Wrong sn was %s", sign))
 			return nil
 		}
 		return next(c)

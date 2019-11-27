@@ -21,12 +21,13 @@ func addReq(c echo.Context) error {
 	url := c.FormValue("url")
 	num := c.FormValue("num")
 	info := c.FormValue("info")
+	ckRes := c.FormValue("checkResp")
 
 	rn, _ := strconv.Atoi(num)
 
 	// 写入mongo
 	id := uuid.NewV4().String()
-	res := bson.M{"id": id, "url": url, "methon":method, "num": rn, "req_num":0, "info": info}
+	res := bson.M{"id": id, "url": url, "methon":method, "num": rn, "req_num":0, "info": info, "resp": ckRes}
 
 	con := library.MongoLib{}
 	conErr := con.MongoClient()

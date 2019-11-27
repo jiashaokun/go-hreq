@@ -28,7 +28,7 @@ func TestMongoLib_MongoClient(t *testing.T) {
 	u2 := uuid.NewV4().String()
 	fmt.Println(u2)
 
-	ash := bson.M{"id": u2, "url":"xin.com", "methon":"post", "num":2, "req_num":0, "paramsdata": "a=1&b=2"}
+	ash := bson.M{"id": u2, "url":"http://cyapi.dev.xin.com", "methon":"post", "num":2, "req_num":0, "info": "a=1&b=2", "resp": "{\"code\":1"}
 	addErr := connect.Add(ash)
 	if addErr != nil {
 		t.Fatal("insert mongo was wrong")
@@ -43,10 +43,12 @@ func TestMongoLib_MongoClient(t *testing.T) {
 	fmt.Println(fdVal)
 
 
+	/*
 	del := bson.M{"id": u2}
 	delErr := connect.Delete(del)
 	if delErr != nil {
 		t.Fatal("Mongo DB Delete Was Wrong !!!")
 	}
 
+	 */
 }
