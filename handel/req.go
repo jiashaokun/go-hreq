@@ -2,11 +2,11 @@ package handel
 
 import (
 	"fmt"
-	"net/http"
 	"strconv"
 
 	"go-hreq/config"
 	"go-hreq/library"
+	"go-hreq/response"
 
 	"github.com/labstack/echo"
 	uuid "github.com/satori/go.uuid"
@@ -14,9 +14,6 @@ import (
 )
 
 func addReq(c echo.Context) error {
-
-	src := c.FormValue("src")
-
 	method := c.FormValue("method")
 	url := c.FormValue("url")
 	num := c.FormValue("num")
@@ -45,5 +42,7 @@ func addReq(c echo.Context) error {
 		return addErr
 	}
 
-	return c.String(http.StatusOK, src)
+	response.Response(c, 200, "", "success")
+
+	return nil
 }
