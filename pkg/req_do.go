@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"io/ioutil"
 
+	"go-hreq/util"
 	"go-hreq/library"
 
 	"go.mongodb.org/mongo-driver/bson"
@@ -16,8 +17,8 @@ func Hreq(cn *library.MongoLib, wg *sync.WaitGroup, m map[string]interface{})  {
 	method := strings.ToUpper(m["method"].(string))
 	switch method {
 	case "GET":
-		url := fmt.Sprintf("%s?%s", m["url"], m["info"])
-		resp, _ := http.Get(url)
+		domain := fmt.Sprintf("%s?%s", m["url"], m["info"])
+		resp, _ := http.Get(domain)
 		defer resp.Body.Close()
 
 		body, _ := ioutil.ReadAll(resp.Body)
@@ -26,6 +27,19 @@ func Hreq(cn *library.MongoLib, wg *sync.WaitGroup, m map[string]interface{})  {
 		idx := strings.Index(str, mres)
 		do(cn, wg, idx, m)
 	case "POST":
+		domain := m["url"].(string)
+		path := m["info"].(string)
+
+		pms := util.GetPostUrlPath(path)
+		resp, _ := http.PostForm(domain, pms)
+		defer resp.Body.Close()
+
+		body, _ := ioutil.ReadAll(resp.Body)
+		str := string(body)
+
+		mres := m["resp"].(string)
+		idx := strings.Index(str, mres)
+		do(cn, wg, idx, m)
 	}
 }
 

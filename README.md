@@ -26,8 +26,6 @@ go build main.go api
 
 
 ---
-
-
 [不用支持,做个样子而已]
 
 <img src="https://github.com/jiashaokun/doc/blob/master/txt/pay.jpg?raw=true" width="300" heigth="300">

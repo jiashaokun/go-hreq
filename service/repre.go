@@ -37,11 +37,15 @@ func Repre(){
 	// 操作数据发送请求 todo
 	wg := sync.WaitGroup{}
 	for _, v := range fdVal {
+		pkg.Hreq(connect, &wg, v)
+		/*
 		wg.Add(1)
 		go func(cn *library.MongoLib, wg *sync.WaitGroup, v bson.M) {
 			defer wg.Done()
 			pkg.Hreq(cn, wg, v)
 		}(connect, &wg, v)
+
+		 */
 	}
 	wg.Wait()
 }
