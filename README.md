@@ -1,6 +1,6 @@
 # hreq
 http repeat query
-该项目辅助 API 开发时的错误和失败的请求提供再重试
+该项目辅助 API 开发时的错误和失败的请求提供再重试，异步失败的 http 请求，通过接口添加至 go-hreq ，启动 con ，系统将会把 Mongo 中未完成的 和 失败的继续请求，指导执行相应的次数后，删除该记录。
 
 
 [项目依赖]
@@ -23,7 +23,6 @@ go build main.go api
 ```
 
 <img src="https://github.com/jiashaokun/doc/blob/master/txt/go-hrep-api.jpg?raw=true">
-
 
 ---
 [不用支持,做个样子而已]

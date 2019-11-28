@@ -23,8 +23,10 @@ func Hreq(cn *library.MongoLib, wg *sync.WaitGroup, m map[string]interface{})  {
 
 		body, _ := ioutil.ReadAll(resp.Body)
 		str := string(body)
-		mres := m["resp"].(string)
-		idx := strings.Index(str, mres)
+
+		respString := m["resp"].(string)
+		idx := strings.Index(str, respString)
+
 		do(cn, wg, idx, m)
 	case "POST":
 		domain := m["url"].(string)
@@ -37,8 +39,8 @@ func Hreq(cn *library.MongoLib, wg *sync.WaitGroup, m map[string]interface{})  {
 		body, _ := ioutil.ReadAll(resp.Body)
 		str := string(body)
 
-		mres := m["resp"].(string)
-		idx := strings.Index(str, mres)
+		respString := m["resp"].(string)
+		idx := strings.Index(str, respString)
 		do(cn, wg, idx, m)
 	}
 }
@@ -49,13 +51,13 @@ func do(cn *library.MongoLib, wg *sync.WaitGroup, idx int, m map[string]interfac
 	req, _ := m["req_num"].(int32);
 	num := m["num"].(int32)
 	id := m["id"].(string)
-	req_num := req + 1
+	reqNum := req + 1
 
 	//如果成功 or 访问次数已经到最大，则删除
-	if idx > -1 || req_num >= num {
+	if idx > -1 || reqNum >= num {
 		cn.Delete(bson.M{"id":id})
 	} else {
 		//req_num +1
-		cn.UpdateNumById(id, req_num)
+		cn.UpdateNumById(id, reqNum)
 	}
 }

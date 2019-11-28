@@ -42,13 +42,9 @@ func TestMongoLib_MongoClient(t *testing.T) {
 	}
 	fmt.Println(fdVal)
 
-
-	/*
 	del := bson.M{"id": u2}
 	delErr := connect.Delete(del)
 	if delErr != nil {
 		t.Fatal("Mongo DB Delete Was Wrong !!!")
 	}
-
-	 */
 }
