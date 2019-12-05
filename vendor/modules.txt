@@ -4,6 +4,12 @@ github.com/dgrijalva/jwt-go
 github.com/go-stack/stack
 # github.com/golang/snappy v0.0.1
 github.com/golang/snappy
+# github.com/klauspost/compress v1.8.2
+github.com/klauspost/compress/flate
+github.com/klauspost/compress/gzip
+github.com/klauspost/compress/zlib
+# github.com/klauspost/cpuid v1.2.1
+github.com/klauspost/cpuid
 # github.com/labstack/echo v3.3.10+incompatible
 github.com/labstack/echo
 github.com/labstack/echo/middleware
@@ -22,6 +28,10 @@ github.com/robfig/cron
 github.com/satori/go.uuid
 # github.com/valyala/bytebufferpool v1.0.0
 github.com/valyala/bytebufferpool
+# github.com/valyala/fasthttp v1.6.0
+github.com/valyala/fasthttp
+github.com/valyala/fasthttp/fasthttputil
+github.com/valyala/fasthttp/stackless
 # github.com/valyala/fasttemplate v1.0.1
 github.com/valyala/fasttemplate
 # github.com/xdg/scram v0.0.0-20180814205039-7eeb5667e42c
@@ -61,7 +71,7 @@ go.mongodb.org/mongo-driver/version
 golang.org/x/crypto/acme/autocert
 golang.org/x/crypto/acme
 golang.org/x/crypto/pbkdf2
-# golang.org/x/net v0.0.0-20190404232315-eb5bcb51f2a3
+# golang.org/x/net v0.0.0-20190827160401-ba9fcec4b297
 golang.org/x/net/idna
 # golang.org/x/sync v0.0.0-20190911185100-cd5d95a43a6e
 golang.org/x/sync/semaphore
