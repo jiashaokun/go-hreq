@@ -29,11 +29,18 @@ go build main.go api
 ```
 
 [API 调用]
-```shell
-横线部分是正确的sn，该信息可以在 middle encrypt.go 里面删除
-```
+---
 
-<img src="https://github.com/jiashaokun/doc/blob/master/txt/go-hrep-api.jpg?raw=true">
+1. src : 签名key对应的来源，该项可在config中配置
+2. method : 请求方式 get/post
+3. url : 需要重试的url
+4. info : 重试的参数 a=b&c=d
+5. num : 重试最多次数
+6. checkResp : 匹配正确的结果，匹配到则不再重试
+7. sn : 签名(签名在 middlware 中，可关闭)
+8. 下图有划线部分的注释
+
+<img src="https://github.com/jiashaokun/doc/blob/master/txt/hreq.jpg?raw=true">
 
 ---
 [不用支持,做个样子而已]
