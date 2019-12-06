@@ -26,10 +26,10 @@ func Repre(){
 
 	connect.SetTable(config.MongoConfig["tb"])
 
-	// 检查新增
-	fd := bson.M{"req_num": bson.M{"$lt": 3}}
+	// 检查新增,条件查询 or 查询全部
+	//fd := bson.M{"req_num": bson.M{"$lt": config.ReqNumLimit}}
+	fd := bson.M{}
 	fdVal, fdErr := connect.Find(fd)
-
 	if fdErr != nil {
 		panic("Mongo DB Find Was Wrong !!!")
 	}
