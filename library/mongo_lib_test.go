@@ -28,7 +28,7 @@ func TestMongoLib_MongoClient(t *testing.T) {
 	u2 := uuid.NewV4().String()
 	fmt.Println(u2)
 
-	ash := bson.M{"id": u2, "url":"http://baidu.com", "method":"get", "num":3, "req_num":0, "info": "a=1&b=2", "resp": "{\"code\":1"}
+	ash := bson.M{"id": u2, "url": "http://baidu.com", "method": "get", "num": 3, "req_num": 0, "info": "a=1&b=2", "resp": "{\"code\":1"}
 	addErr := connect.Add(ash)
 	if addErr != nil {
 		t.Fatal("insert mongo was wrong")

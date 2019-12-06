@@ -14,10 +14,9 @@ import (
 
 type MongoLib struct {
 	Connect *mongo.Client
-	DB *mongo.Database
-	TB *mongo.Collection
+	DB      *mongo.Database
+	TB      *mongo.Collection
 }
-
 
 func (m *MongoLib) MongoClient() error {
 	host := fmt.Sprintf("mongodb://%s:%s", config.MongoConfig["host"], config.MongoConfig["port"])
@@ -50,7 +49,7 @@ func (m *MongoLib) SetTable(table string) {
 }
 
 func (m *MongoLib) Delete(c bson.M) error {
-	ctx, _ := context.WithTimeout(context.Background(), 10 * time.Second)
+	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
 	_, err := m.TB.DeleteOne(ctx, c)
 	if err != nil {
 		return err
@@ -59,7 +58,7 @@ func (m *MongoLib) Delete(c bson.M) error {
 }
 
 func (m *MongoLib) Add(c bson.M) error {
-	ctx, _ := context.WithTimeout(context.Background(), 10 * time.Second)
+	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
 	_, err := m.TB.InsertOne(ctx, c)
 	if err != nil {
 		return err
@@ -67,15 +66,15 @@ func (m *MongoLib) Add(c bson.M) error {
 	return nil
 }
 
-func (m *MongoLib) Find(c bson.M) ([]bson.M,error) {
-	ctx, _ := context.WithTimeout(context.Background(), 10 * time.Second)
+func (m *MongoLib) Find(c bson.M) ([]bson.M, error) {
+	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
 	val, err := m.TB.Find(ctx, c)
 
-	if err != nil{
+	if err != nil {
 		return nil, err
 	}
 	var result []bson.M
-	for val.Next(ctx){
+	for val.Next(ctx) {
 		var res bson.M
 		ersErr := val.Decode(&res)
 		if ersErr != nil {
@@ -87,9 +86,9 @@ func (m *MongoLib) Find(c bson.M) ([]bson.M,error) {
 }
 
 func (m *MongoLib) UpdateNumById(id string, num int32) error {
-	ctx, _ := context.WithTimeout(context.Background(), 10 * time.Second)
+	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
 	w := bson.M{"id": id}
-	u := bson.M{"$set": bson.M{"req_num":num}}
+	u := bson.M{"$set": bson.M{"req_num": num}}
 	_, err := m.TB.UpdateOne(ctx, w, u)
 	if err != nil {
 		return err

@@ -3,9 +3,9 @@ package service
 import (
 	"sync"
 
-	"go-hreq/pkg"
 	"go-hreq/config"
 	"go-hreq/library"
+	"go-hreq/pkg"
 
 	"go.mongodb.org/mongo-driver/bson"
 )
@@ -37,15 +37,22 @@ func Repre(){
 	// 操作数据发送请求 todo
 	wg := sync.WaitGroup{}
 	for _, v := range fdVal {
-		pkg.Hreq(connect, &wg, v)
-		/*
-		wg.Add(1)
-		go func(cn *library.MongoLib, wg *sync.WaitGroup, v bson.M) {
-			defer wg.Done()
-			pkg.Hreq(cn, wg, v)
-		}(connect, &wg, v)
+		req := pkg.Req{
+			Id: v["id"].(string),
+			Url: v["url"].(string),
+			Info: v["info"].(string),
+			Method: v["method"].(string),
+			Num: v["num"].(int32),
+			Resp: v["resp"].(string),
+			ReqNum: v["req_num"].(int32),
+		}
 
-		 */
+		wg.Add(1)
+		go func(req *pkg.Req, cn *library.MongoLib) {
+			defer wg.Done()
+			idx, _ := req.Request()
+			req.Do(connect, idx)
+		}(&req, connect)
 	}
 	wg.Wait()
 }

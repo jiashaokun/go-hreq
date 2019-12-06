@@ -10,11 +10,11 @@ import (
 func TestMakeSign(t *testing.T) {
 
 	req := url.Values{
-		"info":{"id=1&name=2&sn=3"},
+		"info":   {"id=1&name=2&sn=3"},
 		"method": {"post"},
-		"num": {"3"},
-		"src": {"1"},
-		"url": {"http://baidu.com"},
+		"num":    {"3"},
+		"src":    {"1"},
+		"url":    {"http://baidu.com"},
 	}
 
 	sn := makeSign(req, "test1")

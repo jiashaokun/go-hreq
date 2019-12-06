@@ -10,7 +10,7 @@ import (
 	"github.com/labstack/echo"
 )
 
-func Encrypt (c echo.Context) (string, bool) {
+func Encrypt(c echo.Context) (string, bool) {
 	params, err := c.FormParams()
 
 	if err != nil {

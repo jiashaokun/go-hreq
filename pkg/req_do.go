@@ -2,19 +2,18 @@ package pkg
 
 import (
 	"fmt"
-	"sync"
-	"strings"
-	"net/http"
 	"io/ioutil"
+	"net/http"
+	"strings"
 
-	"go-hreq/util"
 	"go-hreq/library"
+	"go-hreq/util"
 
-	"go.mongodb.org/mongo-driver/bson"
 	"github.com/valyala/fasthttp"
+	"go.mongodb.org/mongo-driver/bson"
 )
 
-func Hreq(cn *library.MongoLib, wg *sync.WaitGroup, m map[string]interface{})  {
+func Hreq(cn *library.MongoLib, m map[string]interface{}) {
 	method := strings.ToUpper(m["method"].(string))
 	switch method {
 	case "GET":
@@ -28,7 +27,7 @@ func Hreq(cn *library.MongoLib, wg *sync.WaitGroup, m map[string]interface{})  {
 		respString := m["resp"].(string)
 		idx := strings.Index(str, respString)
 
-		do(cn, wg, idx, m)
+		do(cn, idx, m)
 	case "POST":
 		domain := m["url"].(string)
 		path := m["info"].(string)
@@ -42,21 +41,21 @@ func Hreq(cn *library.MongoLib, wg *sync.WaitGroup, m map[string]interface{})  {
 
 		respString := m["resp"].(string)
 		idx := strings.Index(str, respString)
-		do(cn, wg, idx, m)
+		do(cn, idx, m)
 	}
 }
 
 // mongo 数据操作
-func do(cn *library.MongoLib, wg *sync.WaitGroup, idx int, m map[string]interface{}) {
+func do(cn *library.MongoLib, idx int, m map[string]interface{}) {
 	//失败 并且 req_num + 1 == m['num']
-	req, _ := m["req_num"].(int32);
+	req, _ := m["req_num"].(int32)
 	num := m["num"].(int32)
 	id := m["id"].(string)
 	reqNum := req + 1
 
 	//如果成功 or 访问次数已经到最大，则删除
 	if idx > -1 || reqNum >= num {
-		cn.Delete(bson.M{"id":id})
+		cn.Delete(bson.M{"id": id})
 	} else {
 		//req_num +1
 		cn.UpdateNumById(id, reqNum)
@@ -65,16 +64,16 @@ func do(cn *library.MongoLib, wg *sync.WaitGroup, idx int, m map[string]interfac
 
 // 待使用,待测试
 type Req struct {
-	Id string
-	Url string
-	Info string
+	Id     string
+	Url    string
+	Info   string
 	Method string
-	Num int32
-	Resp string
+	Num    int32
+	Resp   string
 	ReqNum int32
 }
 
-func (r *Req) Request (cn *library.MongoLib, wg *sync.WaitGroup) (int, error) {
+func (r *Req) Request() (int, error) {
 	method := strings.ToUpper(r.Method)
 	idx := -1
 	var err error
@@ -109,12 +108,12 @@ func (r *Req) Request (cn *library.MongoLib, wg *sync.WaitGroup) (int, error) {
 	return idx, err
 }
 
-func (r *Req) Do (cn *library.MongoLib, wg *sync.WaitGroup, idx int) {
+func (r *Req) Do(cn *library.MongoLib, idx int) {
 
 	id := r.Id
-	req := r.ReqNum + r.Num
+	req := r.ReqNum + 1
 	if idx > -1 || req >= r.Num {
-		cn.Delete(bson.M{"id":id})
+		cn.Delete(bson.M{"id": id})
 	} else {
 		//req_num +1
 		cn.UpdateNumById(id, req)
