@@ -13,7 +13,7 @@ func main() {
 	e.Use(
 		middleware.Logger(),
 	)
-	// service.Repre()
+	//service.Repre()
 
 	c := cron.New()
 	c.AddFunc("*/60 * * * * ?", service.Repre)
