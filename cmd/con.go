@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"time"
 
 	"go-hreq/config"
@@ -22,7 +21,6 @@ func main() {
 	for {
 		select {
 		case <- ticker.C:
-			fmt.Println(time.Now())
 			service.Repre()
 			continue
 		}
