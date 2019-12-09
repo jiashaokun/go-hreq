@@ -1,11 +1,14 @@
 package main
 
 import (
+	"fmt"
+	"time"
+
+	"go-hreq/config"
 	"go-hreq/service"
 
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
-	"github.com/robfig/cron"
 )
 
 func main() {
@@ -13,10 +16,15 @@ func main() {
 	e.Use(
 		middleware.Logger(),
 	)
-	//service.Repre()
+	// N 秒执行一次
+	ticker := time.NewTicker(config.CronTimeSecond * time.Second)
 
-	c := cron.New()
-	c.AddFunc("*/60 * * * * ?", service.Repre)
-	c.Start()
-	select {}
+	for {
+		select {
+		case <- ticker.C:
+			fmt.Println(time.Now())
+			service.Repre()
+			continue
+		}
+	}
 }

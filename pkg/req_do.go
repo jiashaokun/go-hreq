@@ -68,7 +68,6 @@ func (r *Req) Request() (int, error) {
 		}
 
 		body := resp.Body()
-
 		idx = strings.Index(string(body), r.Resp)
 	}
 
