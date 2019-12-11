@@ -1,9 +1,6 @@
 package main
 
 import (
-	"time"
-
-	"go-hreq/config"
 	"go-hreq/service"
 
 	"github.com/labstack/echo"
@@ -15,14 +12,18 @@ func main() {
 	e.Use(
 		middleware.Logger(),
 	)
-	// N 秒执行一次
-	ticker := time.NewTicker(config.CronTimeSecond * time.Second)
+	service.Repre()
+	/*
+		// N 秒执行一次
+		ticker := time.NewTicker(config.CronTimeSecond * time.Second)
 
-	for {
-		select {
-		case <- ticker.C:
-			service.Repre()
-			continue
+		for {
+			select {
+			case <- ticker.C:
+				service.Repre()
+				continue
+			}
 		}
-	}
+
+	*/
 }

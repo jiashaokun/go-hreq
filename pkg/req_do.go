@@ -12,13 +12,13 @@ import (
 
 // 待使用,待测试
 type Req struct {
-	Id     string
-	Url    string
-	Info   string
-	Method string
-	Num    int32
-	Resp   string
-	ReqNum int32
+	Id     string `json:"id"`
+	Url    string `json:"url"`
+	Method string `json:"method"`
+	Num    int32  `json:"num"`
+	ReqNum int32  `json:"req_num"`
+	Info   string `json:"info"`
+	Resp   string `json:"resp"`
 }
 
 // 发起一个请求
@@ -46,10 +46,9 @@ func (r *Req) Request() (int, error) {
 		}
 
 		body := resp.Body()
-
 		idx = strings.Index(string(body), r.Resp)
-
 		return idx, nil
+
 	case "POST":
 		url := fmt.Sprintf("%s?%s", r.Url, r.Info)
 		req := fasthttp.AcquireRequest()
@@ -76,12 +75,11 @@ func (r *Req) Request() (int, error) {
 
 func (r *Req) Do(cn *library.MongoLib, idx int) {
 
-	id := r.Id
 	req := r.ReqNum + 1
 	if idx > -1 || req >= r.Num {
-		cn.Delete(bson.M{"id": id})
+		cn.Delete(bson.M{"id": r.Id})
 	} else {
 		//req_num +1
-		cn.UpdateNumById(id, req)
+		cn.UpdateNumById(r.Id, req)
 	}
 }

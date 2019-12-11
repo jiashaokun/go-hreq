@@ -10,8 +10,8 @@ import (
 )
 
 type OutputLayout struct {
-	Code int `json:"code, string"`
-	Msg string `json:"msg, string"`
+	Code int                    `json:"code, string"`
+	Msg  string                 `json:"msg, string"`
 	Data map[string]interface{} `json:"data"`
 }
 

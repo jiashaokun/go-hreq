@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"time"
 
+	"go-hreq/backands"
 	"go-hreq/config"
 
 	"go.mongodb.org/mongo-driver/bson"
@@ -16,6 +17,7 @@ type MongoLib struct {
 	Connect *mongo.Client
 	DB      *mongo.Database
 	TB      *mongo.Collection
+	Value   []*backands.MongoData
 }
 
 func (m *MongoLib) MongoClient() error {
@@ -83,6 +85,29 @@ func (m *MongoLib) Find(c bson.M) ([]bson.M, error) {
 		result = append(result, res)
 	}
 	return result, nil
+}
+
+func (m *MongoLib) FindAll() error {
+	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
+	cur, err := m.TB.Find(ctx, bson.D{})
+	defer cur.Close(ctx)
+
+	if err != nil {
+		return err
+	}
+
+	for cur.Next(ctx) {
+		var c *backands.MongoData
+		err := cur.Decode(&c)
+		if err != nil {
+			return err
+		}
+		m.Value = append(m.Value, c)
+	}
+	if err := cur.Err(); err != nil {
+		return err
+	}
+	return nil
 }
 
 func (m *MongoLib) UpdateNumById(id string, num int32) error {

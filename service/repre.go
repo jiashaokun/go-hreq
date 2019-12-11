@@ -6,12 +6,10 @@ import (
 	"go-hreq/config"
 	"go-hreq/library"
 	"go-hreq/pkg"
-
-	"go.mongodb.org/mongo-driver/bson"
 )
 
 // 重试数据库中访问没有超过次数的请求,超过次数则删除
-func Repre(){
+func Repre() {
 	// 获取数据
 	connect := new(library.MongoLib)
 	conErr := connect.MongoClient()
@@ -26,33 +24,31 @@ func Repre(){
 
 	connect.SetTable(config.MongoConfig["tb"])
 
-	// 检查新增,条件查询 or 查询全部
-	//fd := bson.M{"req_num": bson.M{"$lt": config.ReqNumLimit}}
-	fd := bson.M{}
-	fdVal, fdErr := connect.Find(fd)
-	if fdErr != nil {
-		panic("Mongo DB Find Was Wrong !!!")
+	if err := connect.FindAll(); err != nil {
+		panic("Mongo DB Find ALL was wrong")
 	}
 
-	// 操作数据发送请求 todo
-	wg := sync.WaitGroup{}
-	for _, v := range fdVal {
-		req := pkg.Req{
-			Id: v["id"].(string),
-			Url: v["url"].(string),
-			Info: v["info"].(string),
-			Method: v["method"].(string),
-			Num: v["num"].(int32),
-			Resp: v["resp"].(string),
-			ReqNum: v["req_num"].(int32),
+	if len(connect.Value) > 0 {
+		wg := sync.WaitGroup{}
+
+		for _, v := range connect.Value {
+			req := pkg.Req{
+				Id:     v.Id,
+				Url:    v.Url,
+				Info:   v.Info,
+				Method: v.Method,
+				Num:    v.Num,
+				Resp:   v.Resp,
+				ReqNum: v.ReqNum,
+			}
+			wg.Add(1)
+			go func(req *pkg.Req, cn *library.MongoLib) {
+				defer wg.Done()
+				idx, _ := req.Request()
+				req.Do(connect, idx)
+			}(&req, connect)
+
 		}
-
-		wg.Add(1)
-		go func(req *pkg.Req, cn *library.MongoLib) {
-			defer wg.Done()
-			idx, _ := req.Request()
-			req.Do(connect, idx)
-		}(&req, connect)
+		wg.Wait()
 	}
-	wg.Wait()
 }
