@@ -40,9 +40,9 @@ go build main.go api
 7. sn : 签名(签名在 middlware 中，可关闭)
 8. 下图有划线部分的注释
 
-<img src="https://github.com/jiashaokun/doc/blob/master/txt/hreq.jpg?raw=true">
+<img src="https://raw.githubusercontent.com/jiashaokun/doc/master/txt/hreq.jpg">
 
 ---
 [不用支持,做个样子而已]
 ---
-<img src="https://github.com/jiashaokun/doc/blob/master/txt/pay.jpg?raw=true" width="300" heigth="300">
+<img src="https://raw.githubusercontent.com/jiashaokun/doc/master/txt/pay.jpg" width="300" heigth="300">
